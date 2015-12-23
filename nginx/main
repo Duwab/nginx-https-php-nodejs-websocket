@@ -15,12 +15,12 @@ server {
 
 
         location /assets {
-            alias /srv/assets;
+            alias /srv/www/assets;
             autoindex off;
         }
 
         location / {
-	    root /srv/home;
+	    root /srv/www/home;
             index index.php;
 
             # https://www.digitalocean.com/community/tutorials/how-to-setup-fastcgi-caching-with-nginx-on-your-vps
@@ -34,13 +34,13 @@ server {
             fastcgi_pass unix:/var/run/php5-fpm.sock;
             fastcgi_index index.php;
             include fastcgi_params;
-            fastcgi_param SCRIPT_FILENAME /srv/home/index.php;
+            fastcgi_param SCRIPT_FILENAME /srv/www/home/index.php;
             fastcgi_cache MYAPP;
             fastcgi_cache_valid 200 60m;
          }
 
         location /nocache {
-            root /srv/nocache;
+            root /srv/www/nocache;
             index index.php;
 
             fastcgi_split_path_info ^(.+\.php)(/.+)$;
@@ -50,7 +50,7 @@ server {
             fastcgi_pass unix:/var/run/php5-fpm.sock;
             fastcgi_index index.php;
             include fastcgi_params;
-            fastcgi_param SCRIPT_FILENAME /srv/nocache/index.php;
+            fastcgi_param SCRIPT_FILENAME /srv/www/nocache/index.php;
          }
 
          location =/purge-url {
