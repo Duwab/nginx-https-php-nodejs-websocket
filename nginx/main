@@ -1,0 +1,87 @@
+fastcgi_cache_path /etc/nginx/cache levels=1:2 keys_zone=MYAPP:100m inactive=60m;
+fastcgi_cache_key "$scheme$request_method$host$request_uri";
+
+server {
+	listen 80 default_server;
+        listen [::]:80 default_server ipv6only=on;
+
+        listen 443 ssl;
+
+	index index.php;
+
+	server_name 52.35.16.216;
+        ssl_certificate /srv/nginx/ssl/nginx.crt;
+        ssl_certificate_key /srv/nginx/ssl/nginx.key;
+
+
+        location /assets {
+            alias /srv/assets;
+            autoindex off;
+        }
+
+        location / {
+	    root /srv/home;
+            index index.php;
+
+            # https://www.digitalocean.com/community/tutorials/how-to-setup-fastcgi-caching-with-nginx-on-your-vps
+
+            fastcgi_split_path_info ^(.+\.php)(/.+)$;
+            # NOTE: You should have "cgi.fix_pathinfo = 0;" in php.ini
+
+            #   # With php5-cgi alone:
+#            fastcgi_pass 127.0.0.1:9000;
+            # With php5-fpm:
+            fastcgi_pass unix:/var/run/php5-fpm.sock;
+            fastcgi_index index.php;
+            include fastcgi_params;
+            fastcgi_param SCRIPT_FILENAME /srv/home/index.php;
+            fastcgi_cache MYAPP;
+            fastcgi_cache_valid 200 60m;
+         }
+
+        location /nocache {
+            root /srv/nocache;
+            index index.php;
+
+            fastcgi_split_path_info ^(.+\.php)(/.+)$;
+            # NOTE: You should have "cgi.fix_pathinfo = 0;" in php.ini
+
+            # With php5-fpm:
+            fastcgi_pass unix:/var/run/php5-fpm.sock;
+            fastcgi_index index.php;
+            include fastcgi_params;
+            fastcgi_param SCRIPT_FILENAME /srv/nocache/index.php;
+         }
+
+         location =/purge-url {
+            alias /srv/batch/scripts/purge-url.php;
+            fastcgi_split_path_info ^(.+\.php)(/.+)$;
+            fastcgi_pass unix:/var/run/php5-fpm.sock;
+            include fastcgi_params;
+         }
+
+
+
+
+        # https://www.nginx.com/blog/nginx-nodejs-websockets-socketio/
+
+        location ~ /ws/(?<section>.*) {
+            proxy_set_header Upgrade $http_upgrade;
+            proxy_set_header Connection "upgrade";
+            proxy_http_version 1.1;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header Host $host;
+            proxy_pass http://127.0.0.1:3000/$section;
+        }
+
+        location ~ /socket.io/(?<section>.*) {
+            proxy_set_header Upgrade $http_upgrade;
+            proxy_set_header Connection "upgrade";
+            proxy_http_version 1.1;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header Host $host;
+            proxy_pass http://127.0.0.1:3000$section;
+        }
+
+}
+
