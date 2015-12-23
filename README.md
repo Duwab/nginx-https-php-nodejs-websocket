@@ -1,27 +1,32 @@
 # Smart Architecture
 
+**/!\  Warning  /!\ :** This project is actually on work and is especially unfinished. You can still have a look to the demo at https://archi.duwab.com
+
+
 ## Checking requirements
 nginx
+
 nodejs
+
 php5
+
 cron
-mysql-client??
 
 # Configuring Nginx
-SSL: https://www.digitalocean.com/community/tutorials/how-to-create-an-ssl-certificate-on-nginx-for-ubuntu-14-04
+**SSL:** https://www.digitalocean.com/community/tutorials/how-to-create-an-ssl-certificate-on-nginx-for-ubuntu-14-04
 
-The command if you want to create your own certificate
+*Reminder:* The command to create your own certificate is
 ```
 sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /srv/nginx/ssl/nginx.key -out /srv/nginx/ssl/nginx.crt
 ```
 
-Cache: see nginx/main
+**Cache:** see nginx/main
 
-Websocket: see nginx/main
+**Websocket:** see nginx/main
 
-Assets: see nginx/main
+**Public assets:** see nginx/main
 
-
+When everything is alright:
 ```
 service nginx restart
 ```
