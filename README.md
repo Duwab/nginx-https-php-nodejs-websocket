@@ -11,7 +11,7 @@ nginx
 
 nodejs
 
-php5
+php5-fpm
 
 cron
 
@@ -42,7 +42,9 @@ sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /srv/nginx/ssl/
 
 When everything is alright:
 ```
-service nginx restart
+sudo ln -s /srv/nginx/main /etc/nginx/sites-enabled/
+sudo rm /etc/nginx/sites-enabled/default
+sudo service nginx restart
 ```
 
 # Dealing with Symfony
