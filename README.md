@@ -1,9 +1,12 @@
 # Smart Architecture
 
-**/!\  Warning  /!\ :** This project is actually on work and is especially unfinished. You can still have a look to the demo at https://archi.duwab.com
+Sample architecture dealing with different languages and frameworks, using cache and https
+
+Example on https://archi.duwab.com
 
 
 ## Checking requirements
+### Softwares
 nginx
 
 nodejs
@@ -11,6 +14,17 @@ nodejs
 php5
 
 cron
+
+### Packages managers and cli
+npm
+
+composer
+
+cordova
+
+ionic
+
+bower
 
 # Configuring Nginx
 **SSL:** https://www.digitalocean.com/community/tutorials/how-to-create-an-ssl-certificate-on-nginx-for-ubuntu-14-04
@@ -46,4 +60,14 @@ npm install
 nohup node app.js &
 ```
 
-TODO: use npm forever, configure grunt jobs or somethings like that 
+
+# Dealing with Ionic
+```
+cd *ionic-folder*
+npm install
+ionic serve -a  # enables to access the application remotely
+```
+
+
+# Dealing with Grunt
+TODO
