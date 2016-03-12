@@ -15,7 +15,7 @@ php5
 
 cron
 
-### Packages managers and cli
+### Packages managers and CLI
 npm
 
 composer
@@ -45,12 +45,11 @@ When everything is alright:
 service nginx restart
 ```
 
-# Initialize Symfony's applications
+# Dealing with Symfony
 ```
 cd *symfony-folder*
 composer install
 ```
-
 
 
 # Dealing with NodeJS
@@ -67,7 +66,3 @@ cd *ionic-folder*
 npm install
 ionic serve -a  # enables to access the application remotely
 ```
-
-
-# Dealing with Grunt
-TODO
